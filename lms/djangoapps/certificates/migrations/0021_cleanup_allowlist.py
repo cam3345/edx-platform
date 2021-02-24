@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
         active_invalidations = CertificateInvalidation.objects.filter(active=True)
 
         for invalidation in active_invalidations:
+            #import pdb; pdb.set_trace()
             cert = GeneratedCertificate.objects.get(id=invalidation.generated_certificate_id)
             allowlist_entry = CertificateWhitelist.objects.get(user_id=cert.user_id, course_id=cert.course_id)
 
@@ -32,5 +33,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(clean_up_allowlist)
+        migrations.RunPython(clean_up_allowlist, reverse_code=migrations.RunPython.noop)
     ]
